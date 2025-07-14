@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>天気予報一覧 - Simple Weather Admin</title>
+  <script src="https://sdk.amazonaws.com/js/aws-cognito-sdk.min.js"></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/amazon-cognito-identity-js@6.3.12/dist/amazon-cognito-identity.min.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen">
+  <div id="app">
+    <header class="bg-blue-600 text-white p-4 shadow-md">
+      <div class="container mx-auto flex justify-between items-center">
+        <h1 class="text-2xl font-bold">Simple Weather Admin</h1>
+        <button @click="logout" class="bg-blue-500 hover:bg-blue-700 px-4 py-2 rounded">
+          ログアウト
+        </button>
+      </div>
+    </header>
+
+    <main class="container mx-auto p-6">
+      <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">全国の天気予報</h2>
+
+      <div class="max-w-2xl mx-auto space-y-4">
+        <div v-for="city in cities" :key="city.cityId" @click="goToDetail(city.cityId)"
+          class="bg-white rounded-lg shadow-md p-6 cursor-pointer hover:shadow-lg transition-shadow duration-200 border-l-4"
+          :class="getWeatherBorderColor(city.weatherName)">
+          <div class="flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+              <div class="text-4xl">{{ getWeatherIcon(city.weatherName) }}</div>
+              <div>
+                <h3 class="text-xl font-semibold text-gray-800">{{ city.cityName }}</h3>
+                <p class="text-gray-600">{{ city.weatherName }}</p>
+              </div>
+            </div>
+            <div class="text-right">
+              <p class="text-2xl font-bold text-blue-600">{{ city.rainfallProbability }}%</p>
+              <p class="text-sm text-gray-500">降水確率</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const { createApp } = Vue;
+
+    createApp({
+      data() {
+        return {
+          cities: [
+            // Day5-3 のタイミングでコメントアウトする
+            { cityId: 1, cityName: "札幌", weatherName: "くもり", rainfallProbability: 50 },
+            { cityId: 13, cityName: "東京", weatherName: "雨", rainfallProbability: 90 },
+            { cityId: 23, cityName: "名古屋", weatherName: "晴れ", rainfallProbability: 10 },
+            { cityId: 27, cityName: "大阪", weatherName: "雨", rainfallProbability: 90 },
+            { cityId: 40, cityName: "博多", weatherName: "雨", rainfallProbability: 100 }
+          ]
+        }
+      },
+      mounted() {
+        /* Day6-5 のタイミングでコメントアウトを外す（ここから）*/
+        /*
+        if (!authService.isAuthenticated()) {
+          window.location.href = 'index.html';
+          return;
+        }
+        */
+        /* Day6-5 のタイミングでコメントアウトを外す（ここまで）*/
+
+        /* Day5-3 のタイミングでコメントアウトを外す（ここから） */
+        //this.fetchWeatherData();
+        /* Day5-3 のタイミングでコメントアウトを外す（ここまで） */
+      },
+      methods: {
+        async fetchWeatherData() {
+          try {
+            /* Day5 までの実装、Day6-5 でコメントアウト（ここから） */
+            const response = await fetch(`${CONFIG.API_BASE_URL}/all`);
+            /* Day5 までの実装、Day6-5 でコメントアウト（ここまで） */
+
+            /* Day6-5 でコメントアウトを外す（ここから） */
+            /*
+            const response = await fetch(`${CONFIG.API_BASE_URL}/all`, {
+              headers: {
+                'Authorization': `Bearer ${authService.getAccessToken()}`
+              }
+            });
+            if (response.status === 401) {
+              authService.signOut();
+              window.location.href = 'index.html';
+              return;
+            }
+            */
+            /* Day6-5 でコメントアウトを外す（ここまで） */
+
+            const data = await response.json();
+            this.cities = data;
+          } catch (error) {
+            console.error('API呼び出しエラー:', error);
+          }
+        },
+        goToDetail(cityId) {
+          window.location.href = `detail.html?cityId=${cityId}`;
+        },
+        logout() {
+          /* Day6-5 でコメントアウトを外す（ここから） */
+          /*
+          authService.signOut();
+          window.location.href = 'index.html';
+          */
+          /* Day6-5 でコメントアウトを外す（ここまで） */
+        },
+        getWeatherIcon(weatherName) {
+          const icons = {
+            '晴れ': '☀️',
+            'くもり': '☁️',
+            '雨': '☂️'
+          };
+          return icons[weatherName] || '❓';
+        },
+        getWeatherBorderColor(weatherName) {
+          const colors = {
+            '晴れ': 'border-yellow-400',
+            'くもり': 'border-gray-400',
+            '雨': 'border-blue-400'
+          };
+          return colors[weatherName] || 'border-gray-300';
+        }
+      }
+    }).mount('#app');
+  </script>
+</body>
+
+</html>

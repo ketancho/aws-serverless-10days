@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>天気予報更新 - Simple Weather Admin</title>
+  <script src="https://sdk.amazonaws.com/js/aws-cognito-sdk.min.js"></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/amazon-cognito-identity-js@6.3.12/dist/amazon-cognito-identity.min.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen">
+  <div id="app">
+    <header class="bg-blue-600 text-white p-4 shadow-md">
+      <div class="container mx-auto flex justify-between items-center">
+        <h1 class="text-2xl font-bold">Simple Weather Admin</h1>
+        <button @click="logout" class="bg-blue-500 hover:bg-blue-700 px-4 py-2 rounded">
+          ログアウト
+        </button>
+      </div>
+    </header>
+
+    <main class="container mx-auto p-6">
+      <div class="max-w-md mx-auto bg-white rounded-lg shadow-md p-8">
+        <div class="flex items-center justify-between mb-6">
+          <button @click="goBack" class="text-blue-600 hover:text-blue-800 text-sm flex items-center">
+            ← 一覧に戻る
+          </button>
+          <h2 class="text-2xl font-bold text-gray-800">天気予報更新</h2>
+          <div class="w-20"></div>
+        </div>
+        <div class="mb-6 text-center">
+          <div v-if="currentCity.cityName" class="text-6xl mb-2">{{ getWeatherIcon(currentCity.weatherName) }}</div>
+          <h3 v-if="currentCity.cityName" class="text-3xl font-bold text-gray-800">{{ currentCity.cityName }}</h3>
+        </div>
+
+        <div class="mb-6 p-4 bg-gray-50 rounded-lg">
+          <h4 class="text-lg font-semibold text-gray-700 mb-2">現在の天気</h4>
+          <p class="text-gray-600">天気: {{ currentCity.weatherName }}</p>
+          <p class="text-gray-600">降水確率: {{ currentCity.rainfallProbability }}%</p>
+        </div>
+
+        <form @submit.prevent="updateWeather">
+          <div class="mb-4">
+            <label for="weather" class="block text-sm font-medium text-gray-700 mb-2">
+              天気
+            </label>
+            <select id="weather" v-model="selectedWeatherName"
+              class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <option value="晴れ">☀️ 晴れ</option>
+              <option value="くもり">☁️ くもり</option>
+              <option value="雨">☂️ 雨</option>
+            </select>
+          </div>
+
+          <div class="mb-6">
+            <label for="rainfall" class="block text-sm font-medium text-gray-700 mb-2">
+              降水確率
+            </label>
+            <select id="rainfall" v-model="selectedRainfallProbability"
+              class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <option v-for="percent in rainfallOptions" :key="percent" :value="percent">
+                {{ percent }}%
+              </option>
+            </select>
+          </div>
+
+          <button type="submit"
+            class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-md transition duration-200">
+            更新
+          </button>
+        </form>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const { createApp } = Vue;
+
+    createApp({
+      data() {
+        return {
+          cityId: null,
+          currentCity: {},
+          selectedWeatherName: '',
+          selectedRainfallProbability: 0,
+          cities: [ // Day5-4 のタイミングでコメントアウトする
+            /*
+              { cityId: 1, cityName: "札幌", weatherName: "くもり", rainfallProbability: 50, weatherId: 4 },
+              { cityId: 13, cityName: "東京", weatherName: "雨", rainfallProbability: 90, weatherId: 12 },
+              { cityId: 23, cityName: "名古屋", weatherName: "晴れ", rainfallProbability: 10, weatherId: 2 },
+              { cityId: 27, cityName: "大阪", weatherName: "雨", rainfallProbability: 90, weatherId: 12 },
+              { cityId: 40, cityName: "博多", weatherName: "雨", rainfallProbability: 100, weatherId: 12 } 
+            */
+          ],
+          rainfallOptions: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+        }
+      },
+      mounted() {
+        /* Day6-6 のタイミングでコメントアウトを外す（ここから） */
+        /*
+        if (!authService.isAuthenticated()) {
+          window.location.href = 'index.html';
+          return;
+        }
+        */
+        /* Day6-6 のタイミングでコメントアウトを外す（ここまで） */
+
+        this.initializePage();
+      },
+      methods: {
+        async initializePage() {
+          // URLからcityIdを取得
+          const urlParams = new URLSearchParams(window.location.search);
+          this.cityId = parseInt(urlParams.get('cityId'));
+
+          // 該当都市のデータを取得 Day5-4 のタイミングでコメントアウトする
+          //this.currentCity = this.cities.find(city => city.cityId === this.cityId) || {};
+          // API呼び出しで都市データを取得 Day5-4 のタイミングでコメントアウトを外す
+          await this.fetchCityData();
+
+          // フォームの初期値を設定
+          this.selectedWeatherName = this.currentCity.weatherName || '晴れ';
+          this.selectedRainfallProbability = this.currentCity.rainfallProbability || 0;
+        },
+        async fetchCityData() {
+          try {
+            /* Day5 までの実装, Day6-6 でコメントアウト（ここから） */
+            const response = await fetch(`${CONFIG.API_BASE_URL}/${this.cityId}`);
+            /* Day5 までの実装, Day6-6 でコメントアウト（ここまで） */
+
+            /* Day6-6 でコメントアウトを外す（ここから） */
+            /*
+            const response = await fetch(`${CONFIG.API_BASE_URL}/${this.cityId}`, {
+              headers: {
+                'Authorization': `Bearer ${authService.getAccessToken()}`
+              }
+            });
+            if (response.status === 401) {
+              // 認証エラー時はログアウトしてログイン画面に戻る
+              authService.signOut();
+              window.location.href = 'index.html';
+              return;
+            }
+            */
+            /* Day6-6 でコメントアウトを外す（ここまで） */
+
+            const data = await response.json();
+            this.currentCity = data;
+          } catch (error) {
+            console.error('都市データ取得エラー:', error);
+          }
+        },
+        async updateWeather() {
+          // weatherNameからweatherIdを決定
+          const weatherId = this.getWeatherIdFromName(this.selectedWeatherName);
+
+          // ダミー実装：実際はAPI呼び出し ここから Day5-6 でコメントアウトする
+          /*
+          alert(`${this.currentCity.cityName}の天気を${this.selectedWeatherName}（降水確率${this.selectedRainfallProbability}%）に更新しました！`);
+          this.goBack();
+          */
+          // ここまで
+
+          /* Day5-6 でコメントアウトを外す(ここから) */
+          try {
+            const response = await fetch(`${CONFIG.API_BASE_URL}/${this.cityId}`, {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+                // Day6-7 のタイミングでコメントアウトを外す（ここから）
+                //'Authorization': `Bearer ${authService.getAccessToken()}`,
+                // Day6-7 のタイミングでコメントアウトを外す（ここまで）
+              },
+              body: JSON.stringify({
+                cityId: this.cityId,
+                weatherId: weatherId,
+                rainfallProbability: this.selectedRainfallProbability
+              })
+            });
+
+            // Day6-7 のタイミングでコメントアウトを外す（ここから）
+            //if (response.status === 401) {
+            //  authService.signOut();
+            //  window.location.href = 'index.html';
+            //  return;
+            //}
+            // Day6-7 のタイミングでコメントアウトを外す（ここまで）
+
+            if (response.ok) {
+              alert(`${this.currentCity.cityName}の天気を更新しました！`);
+              this.goBack();
+            } else {
+              console.error('更新に失敗しました:', response.status);
+              alert('更新に失敗しました。');
+            }
+          } catch (error) {
+            console.error('API呼び出しエラー:', error);
+            alert('更新中にエラーが発生しました。');
+          }
+          /* Day5-6 でコメントアウトを外す(ここまで) */
+        },
+        goBack() {
+          window.location.href = 'list.html';
+        },
+        logout() {
+          /* Day6-7 からの実装（ここから） */
+          /*
+          authService.signOut();
+          window.location.href = 'index.html';
+          */
+          /* Day6-7 からの実装（ここまで） */
+        },
+        getWeatherIcon(weatherName) {
+          const icons = {
+            '晴れ': '☀️',
+            'くもり': '☁️',
+            '雨': '☂️'
+          };
+          return icons[weatherName] || '❓';
+        },
+        getWeatherIdFromName(weatherName) {
+          const weatherMap = {
+            '晴れ': 2,
+            'くもり': 4,
+            '雨': 12
+          };
+          return weatherMap[weatherName] || 2;
+        }
+      }
+    }).mount('#app');
+  </script>
+</body>
+
+</html>

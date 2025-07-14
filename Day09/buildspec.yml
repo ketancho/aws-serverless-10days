@@ -1,0 +1,20 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 22
+    commands:
+      - npm install -g aws-cdk
+  pre_build:
+    commands:
+      - echo "CDKプロジェクトの準備中..."
+      - npm install
+      - cdk bootstrap
+  build:
+    commands:
+      - echo "CDKデプロイを実行中..."
+      - cdk deploy --require-approval never
+  post_build:
+    commands:
+      - echo "デプロイ完了"

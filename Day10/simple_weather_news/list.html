@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Weather News</title>
+  <script src="js/config.js"></script>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen">
+  <div id="app">
+    <header class="bg-blue-600 text-white p-4 shadow-md">
+      <div class="container mx-auto flex justify-between items-center">
+        <h1 class="text-2xl font-bold">Simple Weather News</h1>
+      </div>
+    </header>
+
+    <main class="container mx-auto p-6">
+      <div class="relative mb-6">
+        <h2 class="text-3xl font-bold text-gray-800 text-center">全国の天気予報</h2>
+
+        <div class="absolute top-0 right-0 bg-white rounded-lg shadow-sm border border-gray-200 p-2">
+          <div class="flex items-center space-x-2">
+            <span class="text-lg">🎵</span>
+            <button @click="toggleAudio" :class="isPlaying ? 'bg-gray-400' : 'bg-blue-400'"
+              class="text-white px-2 py-1 rounded-full text-xs transition duration-200">
+              {{ isPlaying ? '⏸️' : '▶️' }}
+            </button>
+          </div>
+
+          <div v-if="isPlaying" class="mt-1 w-16">
+            <div class="w-full bg-gray-200 rounded-full h-1">
+              <div class="bg-blue-400 h-1 rounded-full transition-all duration-300" :style="`width: ${progress}%`">
+              </div>
+            </div>
+          </div>
+
+          <audio ref="audioPlayer" @ended="onAudioEnded" @loadstart="onLoadStart" @canplay="onCanPlay">
+            <source src="voice-news/voice-news.mp3" type="audio/mpeg">
+          </audio>
+        </div>
+      </div>
+
+      <div class="max-w-2xl mx-auto space-y-4">
+        <div v-for="city in cities" :key="city.cityId" @click="goToDetail(city.cityId)"
+          class="bg-white rounded-lg shadow-md p-6 cursor-pointer hover:shadow-lg transition-shadow duration-200 border-l-4"
+          :class="getWeatherBorderColor(city.weatherName)">
+          <div class="flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+              <div class="text-4xl">{{ getWeatherIcon(city.weatherName) }}</div>
+              <div>
+                <h3 class="text-xl font-semibold text-gray-800">{{ city.cityName }}</h3>
+                <p class="text-gray-600">{{ city.weatherName }}</p>
+              </div>
+            </div>
+            <div class="text-right">
+              <p class="text-2xl font-bold text-blue-600">{{ city.rainfallProbability }}%</p>
+              <p class="text-sm text-gray-500">降水確率</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const { createApp } = Vue;
+
+    createApp({
+      data() {
+        return {
+          cities: [],
+          isPlaying: false,
+          isLoading: false,
+          currentTime: 0,
+          duration: 0,
+          progress: 0
+        }
+      },
+      mounted() {
+        this.fetchWeatherData();
+      },
+      methods: {
+        async fetchWeatherData() {
+          try {
+            const response = await fetch(`${CONFIG.API_BASE_URL}/all`);
+
+            const data = await response.json();
+            this.cities = data;
+          } catch (error) {
+            console.error('API呼び出しエラー:', error);
+          }
+        },
+        goToDetail(cityId) {
+          window.location.href = `detail.html?cityId=${cityId}`;
+        },
+        getWeatherIcon(weatherName) {
+          const icons = {
+            '晴れ': '☀️',
+            'くもり': '☁️',
+            '雨': '☂️'
+          };
+          return icons[weatherName] || '❓';
+        },
+        getWeatherBorderColor(weatherName) {
+          const colors = {
+            '晴れ': 'border-yellow-400',
+            'くもり': 'border-gray-400',
+            '雨': 'border-blue-400'
+          };
+          return colors[weatherName] || 'border-gray-300';
+        },
+        toggleAudio() {
+          const audio = this.$refs.audioPlayer;
+          if (this.isPlaying) {
+            audio.pause();
+            this.isPlaying = false;
+          } else {
+            const source = audio.querySelector('source');
+            source.src = `voice-news/voice-news.mp3?t=${Date.now()}`;
+            audio.load(); // 新しいソースを読み込み
+
+            this.isLoading = true;
+            audio.play().then(() => {
+              this.isPlaying = true;
+              this.isLoading = false;
+              this.startProgressTracking();
+            }).catch(error => {
+              console.error('音声再生エラー:', error);
+              this.isLoading = false;
+              alert('音声ファイルの再生に失敗しました。');
+            });
+          }
+        },
+        startProgressTracking() {
+          const audio = this.$refs.audioPlayer;
+          const updateProgress = () => {
+            if (audio && this.isPlaying) {
+              this.currentTime = audio.currentTime;
+              this.duration = audio.duration || 0;
+              this.progress = this.duration > 0 ? (this.currentTime / this.duration) * 100 : 0;
+              requestAnimationFrame(updateProgress);
+            }
+          };
+          updateProgress();
+        },
+        onAudioEnded() {
+          this.isPlaying = false;
+          this.progress = 0;
+          this.currentTime = 0;
+        },
+        onLoadStart() {
+          this.isLoading = true;
+        },
+        onCanPlay() {
+          this.isLoading = false;
+        },
+        formatTime(seconds) {
+          if (!seconds || isNaN(seconds)) return '0:00';
+          const mins = Math.floor(seconds / 60);
+          const secs = Math.floor(seconds % 60);
+          return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+      }
+    }).mount('#app');
+  </script>
+</body>
+
+</html>
