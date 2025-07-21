@@ -47,22 +47,20 @@ def lambda_handler(event, context):
 ```py
 import os # Update
 import json
-import boto3
 
-KEY = os.environ['KEY'] # Update
+API_KEY = os.environ['KEY'] # Update
 
 def lambda_handler(event, context):
 
     return {
         'statusCode': 200,
-        'body': json.dumps('Hello World from Lambda! - ' + KEY) # Update
+        'body': json.dumps('Hello World from Lambda! - ' + API_KEY) # Update
     }
 ```
 
 # Day1-5 sample-lambda-function の実装
 ```py
 import json
-import boto3
 import time # Update
 
 def lambda_handler(event, context):
@@ -71,7 +69,7 @@ def lambda_handler(event, context):
 
     return {
         'statusCode': 200,
-        'body': json.dumps('Hello World from Lambda! - ' + event['msg'])
+        'body': json.dumps('Hello World from Lambda!')
     }
 ```
 
