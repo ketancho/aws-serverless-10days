@@ -89,7 +89,7 @@
           currentCity: {},
           selectedWeatherName: '',
           selectedRainfallProbability: 0,
-          cities: [ // Day5-4 のタイミングでコメントアウトする
+          cities: [ // Day5-3 のタイミングでコメントアウトする
             /*
               { cityId: 1, cityName: "札幌", weatherName: "くもり", rainfallProbability: 50, weatherId: 4 },
               { cityId: 13, cityName: "東京", weatherName: "雨", rainfallProbability: 90, weatherId: 12 },
@@ -119,9 +119,9 @@
           const urlParams = new URLSearchParams(window.location.search);
           this.cityId = parseInt(urlParams.get('cityId'));
 
-          // 該当都市のデータを取得 Day5-4 のタイミングでコメントアウトする
+          // 該当都市のデータを取得 Day5-3 のタイミングでコメントアウトする
           //this.currentCity = this.cities.find(city => city.cityId === this.cityId) || {};
-          // API呼び出しで都市データを取得 Day5-4 のタイミングでコメントアウトを外す
+          // API呼び出しで都市データを取得 Day5-3 のタイミングでコメントアウトを外す
           await this.fetchCityData();
 
           // フォームの初期値を設定
@@ -160,12 +160,12 @@
           // weatherNameからweatherIdを決定
           const weatherId = this.getWeatherIdFromName(this.selectedWeatherName);
 
-          // ダミー実装：実際はAPI呼び出し ここから Day5-6 でコメントアウトする
+          // ダミー実装：実際はAPI呼び出し ここから Day5-5 でコメントアウトする
           alert(`${this.currentCity.cityName}の天気を${this.selectedWeatherName}（降水確率${this.selectedRainfallProbability}%）に更新しました！`);
           this.goBack();
           // ここまで
 
-          /* Day5-6 でコメントアウトを外す(ここから) */
+          /* Day5-5 でコメントアウトを外す(ここから) */
           /*
           try {
             const response = await fetch(`${CONFIG.API_BASE_URL}/${this.cityId}`, {
@@ -203,7 +203,7 @@
             alert('更新中にエラーが発生しました。');
           }
           */
-          /* Day5-6 でコメントアウトを外す(ここまで) */
+          /* Day5-5 でコメントアウトを外す(ここまで) */
         },
         goBack() {
           window.location.href = 'list.html';
