@@ -11,30 +11,30 @@ def lambda_handler(event, context):
         {
             "cityId": 1,
             "cityName": "札幌",
-            "weatherId": 14,
-            "weatherName": "雪",
-            "rainfallProbability": 80
+            "weatherId": 12,
+            "weatherName": "雨",
+            "rainfallProbability": 90
         },
         {
             "cityId": 13,
             "cityName": "東京", 
-            "weatherId": 2,
-            "weatherName": "晴れ",
-            "rainfallProbability": 10
+            "weatherId": 4,
+            "weatherName": "くもり",
+            "rainfallProbability": 70
         },
         {
             "cityId": 23,
             "cityName": "名古屋",
             "weatherId": 4,
             "weatherName": "くもり",
-            "rainfallProbability": 30
+            "rainfallProbability": 50
         },
         {
             "cityId": 27,
             "cityName": "大阪",
-            "weatherId": 12,
-            "weatherName": "雨",
-            "rainfallProbability": 70
+            "weatherId": 4,
+            "weatherName": "くもり",
+            "rainfallProbability": 30
         },
         {
             "cityId": 40,
