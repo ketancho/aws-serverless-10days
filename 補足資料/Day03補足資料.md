@@ -1,7 +1,7 @@
 Day3 のハンズオンに関する情報を掲載します。
 動画にあわせて手を動かしていただくことを推奨していますが、もし「同じ手順を実施したはずなのに動かない..」となったときように、コピー＆ペーストしていただく用途で使っていただければと考えています。
 
-# Day3-3 put_random_weather_function　の修正
+# Day3-3　put_random_weather_function　の修正
 ```py
     # return 文の前に追加する
     print('Update: ' + city_name + ' to ' + weather_name)
