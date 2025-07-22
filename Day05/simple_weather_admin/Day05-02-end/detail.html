@@ -90,13 +90,11 @@
           selectedWeatherName: '',
           selectedRainfallProbability: 0,
           cities: [ // Day5-3 のタイミングでコメントアウトする
-            /*
               { cityId: 1, cityName: "札幌", weatherName: "くもり", rainfallProbability: 50, weatherId: 4 },
               { cityId: 13, cityName: "東京", weatherName: "雨", rainfallProbability: 90, weatherId: 12 },
               { cityId: 23, cityName: "名古屋", weatherName: "晴れ", rainfallProbability: 10, weatherId: 2 },
               { cityId: 27, cityName: "大阪", weatherName: "雨", rainfallProbability: 90, weatherId: 12 },
               { cityId: 40, cityName: "博多", weatherName: "雨", rainfallProbability: 100, weatherId: 12 } 
-            */
           ],
           rainfallOptions: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
         }
@@ -120,9 +118,9 @@
           this.cityId = parseInt(urlParams.get('cityId'));
 
           // 該当都市のデータを取得 Day5-3 のタイミングでコメントアウトする
-          //this.currentCity = this.cities.find(city => city.cityId === this.cityId) || {};
+          this.currentCity = this.cities.find(city => city.cityId === this.cityId) || {};
           // API呼び出しで都市データを取得 Day5-3 のタイミングでコメントアウトを外す
-          await this.fetchCityData();
+          //await this.fetchCityData();
 
           // フォームの初期値を設定
           this.selectedWeatherName = this.currentCity.weatherName || '晴れ';
