@@ -52,10 +52,11 @@ aws s3 sync . s3://your-bucket-name/
 #cd ~
 #rm -r work/*
 #cp -r aws-serverless-10days/Day05/simple_weather_admin/DayNN-NN-end/* work/
+# → js/config.js の設定が消えてしまうので、API Gateway エンドポイントなどを改めて皆さまのものに置き換えてください。
 ```
 
 # Day5-2 
-
+## CloudShell 上での作業コマンド
 ```bash
 cd ~/work
 vim list.html
@@ -64,8 +65,106 @@ aws s3 sync . s3://your-bucket-name/
 ```
 
 # Day5-3 
+## CloudShell 上での作業コマンド
+```bash
+cd ~/work
+vim detail.html
+aws s3 sync . s3://your-bucket-name/
+```
 
 # Day5-4 
+## put_city_weather_function の実装例
+```py
+import json
+import boto3
+
+dynamodb_client = boto3.client('dynamodb')
+
+def lambda_handler(event, context):
+
+    if 'cityId' in event['pathParameters']:
+        city_id = int(event['pathParameters']['cityId'])
+    else:
+        return {
+            'statusCode': 400,
+            'body': json.dumps('city_id is required')
+        }
+
+    city_name = findCityName(city_id)
+    if city_name == "ERROR":
+        return {
+            'statusCode': 400,
+            'body': json.dumps('Invalid cityId')
+        }
+
+    body = json.loads(event['body'])
+    weather_id = int(body['weatherId'])
+    weather_name = findWeatherName(weather_id)
+
+    rainfall_probability = int(body['rainfallProbability'])
+
+    dynamodb_client.put_item(
+        TableName='simple-weather-news-table',
+        Item={
+            'CityId': {
+                'N': str(city_id),
+            },
+            'CityName': {
+                'S': city_name,
+            },
+            'WeatherId': {
+                'N': str(weather_id),
+            },
+            'WeatherName': {
+                'S': weather_name,
+            },
+            'RainfallProbability': {
+                'N': str(rainfall_probability),
+            },
+        },
+    )
+    
+    return {
+        'statusCode': 200,
+        'body': json.dumps('Update: ' + str(city_id))
+    }
+
+def findCityName(city_id):
+    city_map = {1: "札幌", 13: "東京", 23: "名古屋", 27: "大阪", 40: "博多"}
+    return city_map.get(city_id, "ERROR")
+
+def findWeatherName(weather_id):
+    weather_map = {2: "晴れ", 4: "くもり", 12: "雨"}
+    return weather_map.get(weather_id, "ERROR")
+```
+
+## put_city_weather_function の Test Event 例
+```json
+{
+  "pathParameters": {
+    "cityId": "1"
+  },
+  "body": "{\"cityId\": 1, \"weatherId\": 12, \"rainfallProbability\": 100}",
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "httpMethod": "PUT",
+  "resource": "/{cityId}"
+}
+```
+
+## PUT API のテストコマンド
+```bash
+curl -X PUT \
+  https://your-api-gateway-url/1 \
+  -H "Content-Type: application/json" \
+  -d '{"cityId": 1, "weatherId": 2, "rainfallProbability": 0}'
+```
 
 # Day5-5 
-
+## CloudShell 上での作業コマンド
+```bash
+cd ~/work
+vim detail.html
+aws s3 sync . s3://your-bucket-name/
+```
