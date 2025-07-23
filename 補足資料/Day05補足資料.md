@@ -28,6 +28,18 @@ Day2 のハンズオンのコピー＆ペースト用コマンドリストです
 }
 ```
 
+## CloudShell 上での作業コマンド
+
+### vim の初期設定
+```bash
+vim ~/.vimrc
+```
+i を押し、挿入モードにした上で、下記のように記入し、 ESC + :wq + Enter で保存
+```
+set tabstop=2
+```
+
+### GitHub からフロントエンドコードの雛形を取得し、作業用ディレクトリに配置、皆さまの S3 バケットにホスティング
 ```bash
 git clone https://github.com/ketancho/aws-serverless-10days.git
 mkdir work
@@ -35,13 +47,21 @@ cp -r aws-serverless-10days/Day05/simple_weather_admin/Day05-01/* work/
 cd work
 aws s3 sync . s3://your-bucket-name/
 
-# もし上手く動かなくなった場合、DayNN-NN断面に戻したい場合
-cd ~
-rm -r work/*
-cp -r aws-serverless-10days/Day05/simple_weather_admin/[DayNN-NN]/* work/
+# もし上手く動かなくなった場合、DayNN-NN終了断面に戻したい場合に使用するコマンド
+# （最後のコマンドの DayNN-NN-end の NN 部分を具体的な数字に置き換えてください。例：Day5-2終了断面に戻したい場合は、Day05-02-end）
+#cd ~
+#rm -r work/*
+#cp -r aws-serverless-10days/Day05/simple_weather_admin/DayNN-NN-end/* work/
 ```
 
 # Day5-2 
+
+```bash
+cd ~/work
+vim list.html
+vim js/config.js 
+aws s3 sync . s3://your-bucket-name/
+```
 
 # Day5-3 
 
