@@ -1,8 +1,8 @@
-Day4 のハンズオンに関する情報を掲載します。
+Day5 のハンズオンに関する情報を掲載します。
 動画にあわせて手を動かしていただくことを推奨していますが、もし「同じ手順を実施したはずなのに動かない..」となったときように、コピー＆ペーストしていただく用途で使っていただければと考えています。
 
-Day2 のハンズオンのコピー＆ペースト用コマンドリストです。
-任意での実行のものも含めています。動画にあわせてご活用ください。
+また、Day5-4の put_city_weather_function の実装については、動画中でも紹介していますが、これを見ずに皆さまで実装に挑戦していただいてもいいと思っています。
+あくまで実装例として参考にしてみてください。
 
 # Day5-1 
 
@@ -56,6 +56,7 @@ aws s3 sync . s3://your-bucket-name/
 ```
 
 # Day5-2 
+参考：Day5-2 の最終断面については、Day06/simple_weather_admin/Day05-02-end 以下に格納してあります
 ## CloudShell 上での作業コマンド
 ```bash
 cd ~/work
@@ -65,6 +66,7 @@ aws s3 sync . s3://your-bucket-name/
 ```
 
 # Day5-3 
+参考：Day5-3 の最終断面については、Day06/simple_weather_admin/Day05-03-end 以下に格納してあります
 ## CloudShell 上での作業コマンド
 ```bash
 cd ~/work
@@ -162,6 +164,7 @@ curl -X PUT \
 ```
 
 # Day5-5 
+参考：Day5-5 の最終断面については、Day06/simple_weather_admin/Day05-05-end 以下に格納してあります
 ## CloudShell 上での作業コマンド
 ```bash
 cd ~/work
