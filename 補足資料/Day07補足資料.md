@@ -12,7 +12,7 @@ Day7 のハンズオンに関する情報を掲載します。
 "この天気予報データから、天気予報のアナウンス原稿を作りたいです。「今日の天気は全国的に〜」から始めて、150文字前後の原稿を作ってください。天気予報データ" & $states.input.Items
 ```
 ### 参考: Bedrock モデルパラメータ JSON 全文
-※ `"` が `/"` にエスケープされていることに注意
+※ 一部の `"` が `/"` にエスケープされていることにご注意ください
 ```json
 {
   "anthropic_version": "bedrock-2023-05-31",
@@ -43,7 +43,7 @@ Day7 のハンズオンに関する情報を掲載します。
 
 # Day7-5
 ## AWS CLI で S3 バケットを作成する
-※ BUCKET_NAME　は皆さまのユニークなバケット名に置き換える必要がある点に注意
+※ BUCKET_NAME="your-bucket-name" の `your-bucket-name` は皆さまのユニークなバケット名に置き換える必要がある点にご注意ください
 ```bash
 BUCKET_NAME="your-bucket-name"
 # 1. S3バケット作成
@@ -61,7 +61,7 @@ aws s3api put-object --bucket $BUCKET_NAME --key voice-news/
 
 # Day7-6
 ## StartSpeechSynthesisTask ステートの引数 JSON
-※ your-bucket-name は皆さまのユニークなバケット名に置き換える必要がある点に注意
+※ your-bucket-name は皆さまのユニークなバケット名に置き換える必要がある点にご注意ください
 ```json
 {
   "OutputFormat": "mp3",
@@ -72,7 +72,7 @@ aws s3api put-object --bucket $BUCKET_NAME --key voice-news/
 }
 ```
 ## CobyObject ステートの引数 JSON
-※ your-bucket-name は皆さまのユニークなバケット名に置き換える必要がある点に注意
+※ your-bucket-name は皆さまのユニークなバケット名に置き換える必要がある点にご注意ください
 ```json
 {
   "Bucket": "your-bucket-name",
