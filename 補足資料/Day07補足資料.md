@@ -61,7 +61,7 @@ aws s3api put-object --bucket $BUCKET_NAME --key voice-news/
 
 # Day7-6
 ## StartSpeechSynthesisTask ステートの引数 JSON
-※ your-bucket-name は皆さまのユニークなバケット名に置き換える必要がある点にご注意ください
+※ `your-bucket-name` は皆さまのユニークなバケット名に置き換える必要がある点にご注意ください
 ```json
 {
   "OutputFormat": "mp3",
@@ -72,7 +72,7 @@ aws s3api put-object --bucket $BUCKET_NAME --key voice-news/
 }
 ```
 ## CobyObject ステートの引数 JSON
-※ your-bucket-name は皆さまのユニークなバケット名に置き換える必要がある点にご注意ください
+※ `your-bucket-name` は皆さまのユニークなバケット名に置き換える必要がある点にご注意ください
 ```json
 {
   "Bucket": "your-bucket-name",
