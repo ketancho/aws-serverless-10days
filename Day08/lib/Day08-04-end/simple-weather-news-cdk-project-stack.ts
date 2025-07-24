@@ -43,11 +43,11 @@ export class SimpleWeatherNewsCdkProjectStack extends cdk.Stack {
     // HTTP API の追加
     /* Day10-01
     const httpApi = new apigatewayv2.HttpApi(this, 'WeatherPublicHttpApi', {
-      apiName: 'simple-weather-api-public',
+      apiName: 'simple-weather-news-api-public',
       corsPreflight: {
         allowOrigins: ['*'],
         allowMethods: [apigatewayv2.CorsHttpMethod.GET],
-        allowHeaders: ['Content-Type'],
+        allowHeaders: ['*'],
       },
     });
     */

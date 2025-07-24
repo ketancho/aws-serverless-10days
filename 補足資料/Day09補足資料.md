@@ -38,11 +38,9 @@ git push origin main
 
 ## CodeBuild プロジェクトのサービスロールに付与する IAM ポリシー一覧
 - AWSCloudFormationFullAccess
-- AWSLambda_FullAccess
-- IAMFullAccess
-- AmazonDynamoDBFullAccess_v2
 - AmazonSSMReadOnlyAccess
 - AmazonS3FullAccess
+- IAMFullAccess
 
 ## ビルドテストのために get_all_weather_public_function を修正する
 ```bash
