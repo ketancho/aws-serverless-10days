@@ -31,7 +31,7 @@ export class SimpleWeatherNewsCdkProjectStack extends cdk.Stack {
         'dynamodb:GetItem'
       ],
       resources: [
-        'arn:aws:dynamodb:*:*:table/simple-weather-table'
+        'arn:aws:dynamodb:*:*:table/simple-weather-news-table'
       ]
     });
 

@@ -4,21 +4,27 @@ Day8 のハンズオンに関する情報を掲載します。
 ## AWS CDK のインストール on AWS CloudShell
 ```bash
 cd ~
+
+# リージョン確認
+aws configure set region ap-northeast-1
+aws configure get region
+# => ap-northeast-1 と表示されることを確認する
+
 # Node.js/npmのバージョン確認
 node --version
 npm --version
 
 # CDK CLIのインストール確認・インストール
-sudo npm install -g aws-cdk
+sudo npm install -g aws-cdk@latest
 cdk --version
 ```
 
-## CDK プロジェクトの作成
+## CDK の初期セットアップ
 ```bash
 mkdir simple-weather-news-cdk-project
 cd simple-weather-news-cdk-project
 cdk init app --language typescript
-# -> 1-2分ほどかかる
+cdk bootstrap
 ```
 
 # Day8-3
