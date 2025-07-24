@@ -9,7 +9,7 @@ def lambda_handler(event, context):
     
     # DynamoDBから特定の都市のデータを取得
     response = dynamodb_client.get_item(
-        TableName='simple-weather-table',
+        TableName='simple-weather-news-table',
         Key={
             'CityId': {
                 'N': city_id

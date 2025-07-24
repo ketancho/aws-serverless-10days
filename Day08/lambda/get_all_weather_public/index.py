@@ -5,7 +5,7 @@ dynamodb_client = boto3.client('dynamodb')
 
 def lambda_handler(event, context):
     response = dynamodb_client.scan(
-        TableName='simple-weather-table'
+        TableName='simple-weather-news-table'
     )
     items = response['Items']
     
