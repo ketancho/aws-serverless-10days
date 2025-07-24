@@ -42,16 +42,16 @@ set tabstop=2
 ### GitHub からフロントエンドコードの雛形を取得し、作業用ディレクトリに配置、皆さまの S3 バケットにホスティング
 ```bash
 git clone https://github.com/ketancho/aws-serverless-10days.git
-mkdir work
-cp -r aws-serverless-10days/Day05/simple_weather_admin/Day05-01/* work/
-cd work
+mkdir work-simple-weather-news-admin
+cp -r aws-serverless-10days/Day05/simple_weather_admin/Day05-01/* work-simple-weather-news-admin/
+cd work-simple-weather-news-admin
 aws s3 sync . s3://your-bucket-name/
 
 # もし上手く動かなくなった場合、DayNN-NN終了断面に戻したい場合に使用するコマンド
 # （最後のコマンドの DayNN-NN-end の NN 部分を具体的な数字に置き換えてください。例：Day5-2終了断面に戻したい場合は、Day05-02-end）
 #cd ~
-#rm -r work/*
-#cp -r aws-serverless-10days/Day05/simple_weather_admin/DayNN-NN-end/* work/
+#rm -r work-simple-weather-news-admin/*
+#cp -r aws-serverless-10days/Day05/simple_weather_admin/DayNN-NN-end/* work-simple-weather-news-admin/
 # → js/config.js の設定が消えてしまうので、API Gateway エンドポイントなどを改めて皆さまのものに置き換えてください。
 ```
 
@@ -59,7 +59,7 @@ aws s3 sync . s3://your-bucket-name/
 参考：Day5-2 の最終断面については、Day06/simple_weather_admin/Day05-02-end 以下に格納してあります
 ## CloudShell 上での作業コマンド
 ```bash
-cd ~/work
+cd ~/work-simple-weather-news-admin
 vim list.html
 vim js/config.js 
 aws s3 sync . s3://your-bucket-name/
@@ -69,7 +69,7 @@ aws s3 sync . s3://your-bucket-name/
 参考：Day5-3 の最終断面については、Day06/simple_weather_admin/Day05-03-end 以下に格納してあります
 ## CloudShell 上での作業コマンド
 ```bash
-cd ~/work
+cd ~/work-simple-weather-news-admin
 vim detail.html
 aws s3 sync . s3://your-bucket-name/
 ```
@@ -167,7 +167,7 @@ curl -X PUT \
 参考：Day5-5 の最終断面については、Day06/simple_weather_admin/Day05-05-end 以下に格納してあります
 ## CloudShell 上での作業コマンド
 ```bash
-cd ~/work
+cd ~/work-simple-weather-news-admin
 vim detail.html
 aws s3 sync . s3://your-bucket-name/
 ```
