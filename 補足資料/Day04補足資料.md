@@ -1,7 +1,21 @@
 Day4 のハンズオンに関する情報を掲載します。
 動画にあわせて手を動かしていただくことを推奨していますが、もし「同じ手順を実施したはずなのに動かない..」となったときように、コピー＆ペーストしていただく用途で使っていただければと考えています。
 
-# Day4-2 終了断面の get_all_weather_function 
+
+# Day4-2
+## HTTP API の AWS Lambda プロキシ統合の return 文
+```json
+{
+  "isBase64Encoded": false,
+  "statusCode": 200,
+  "body": "{ \"message\": \"Hello from Lambda!\" }",
+  "headers": {
+    "content-type": "application/json"
+  }
+}
+```
+
+## Day4-2 終了断面の get_all_weather_function 
 ```py
 import json
 
