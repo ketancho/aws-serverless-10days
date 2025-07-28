@@ -39,7 +39,7 @@ def lambda_handler(event, context):
 ```
 ```json
 {
-  "msg": "aws-serverless-10days!!"
+  "msg": "aws-serverless-10days"
 }
 ```
 
