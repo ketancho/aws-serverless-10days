@@ -60,8 +60,8 @@ aws s3 sync . s3://your-bucket-name/
 ## CloudShell 上での作業コマンド
 ```bash
 cd ~/work-simple-weather-news-admin
-vim list.html
 vim js/config.js 
+vim list.html
 aws s3 sync . s3://your-bucket-name/
 ```
 
