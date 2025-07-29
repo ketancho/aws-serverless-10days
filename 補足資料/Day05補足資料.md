@@ -88,15 +88,23 @@ def lambda_handler(event, context):
         city_id = int(event['pathParameters']['cityId'])
     else:
         return {
-            'statusCode': 400,
-            'body': json.dumps('city_id is required')
+            'isBase64Encoded': False,
+            'statusCode': 404,
+            'body': json.dumps({'error': 'city_id is required'}, ensure_ascii=False),
+            'headers': {
+                'content-type': 'application/json'
+            }
         }
 
     city_name = findCityName(city_id)
-    if city_name == "ERROR":
+    if city_name == 'ERROR':
         return {
-            'statusCode': 400,
-            'body': json.dumps('Invalid cityId')
+            'isBase64Encoded': False,
+            'statusCode': 404,
+            'body': json.dumps({'error': 'Invalid cityId'}, ensure_ascii=False),
+            'headers': {
+                'content-type': 'application/json'
+            }
         }
 
     body = json.loads(event['body'])
@@ -132,12 +140,12 @@ def lambda_handler(event, context):
     }
 
 def findCityName(city_id):
-    city_map = {1: "札幌", 13: "東京", 23: "名古屋", 27: "大阪", 40: "博多"}
-    return city_map.get(city_id, "ERROR")
+    city_map = {1: '札幌', 13: '東京', 23: '名古屋', 27: '大阪', 40: '博多'}
+    return city_map.get(city_id, 'ERROR')
 
 def findWeatherName(weather_id):
-    weather_map = {2: "晴れ", 4: "くもり", 12: "雨"}
-    return weather_map.get(weather_id, "ERROR")
+    weather_map = {2: '晴れ', 4: 'くもり', 12: '雨'}
+    return weather_map.get(weather_id, 'ERROR')
 ```
 
 ## put_city_weather_function の Test Event 例
