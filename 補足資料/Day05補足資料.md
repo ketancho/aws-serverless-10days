@@ -170,7 +170,7 @@ def findWeatherName(weather_id):
 ## PUT API のテストコマンド
 ```bash
 curl -X PUT \
-  https://your-api-gateway-url/1 \
+  your-api-gateway-url/1 \
   -H "Content-Type: application/json" \
   -d '{"weatherId": 2, "rainfallProbability": 0}'
 ```
