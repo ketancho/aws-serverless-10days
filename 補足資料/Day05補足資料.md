@@ -135,8 +135,12 @@ def lambda_handler(event, context):
     )
     
     return {
-        'statusCode': 200,
-        'body': json.dumps('Update: ' + str(city_id))
+        "isBase64Encoded": False,
+        "statusCode": 200,
+        "body": json.dumps('Update: ' + str(city_id), ensure_ascii=False),
+        "headers": {
+            "content-type": "application/json"
+        }
     }
 
 def findCityName(city_id):
@@ -154,7 +158,7 @@ def findWeatherName(weather_id):
   "pathParameters": {
     "cityId": "1"
   },
-  "body": "{\"cityId\": 1, \"weatherId\": 12, \"rainfallProbability\": 100}",
+  "body": "{\"weatherId\": 12, \"rainfallProbability\": 100}",
   "headers": {
     "Content-Type": "application/json"
   },
@@ -168,7 +172,7 @@ def findWeatherName(weather_id):
 curl -X PUT \
   https://your-api-gateway-url/1 \
   -H "Content-Type: application/json" \
-  -d '{"cityId": 1, "weatherId": 2, "rainfallProbability": 0}'
+  -d '{"weatherId": 2, "rainfallProbability": 0}'
 ```
 
 # Day5-5 
