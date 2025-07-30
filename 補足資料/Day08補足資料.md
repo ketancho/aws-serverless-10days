@@ -66,3 +66,8 @@ cp ~/aws-serverless-10days/Day08/lambda/get_city_weather_public/index.py ~/simpl
 vim lib/simple-weather-news-cdk-project-stack.ts
 ```
 ※ もし、修正が上手くいかない場合は、Day8-4 終了時点の stack.ts を、Day08/lib/Day08-04-end/simple-weather-news-cdk-project-stack.ts に用意してありますので、コピーしてお使いください。
+
+## Lambda 関数 get_city_weather_public_function のテスト
+```
+aws lambda invoke --function-name get_city_weather_public_function --payload $(echo '{"pathParameters":{"cityId":"13"}}' | base64) /dev/stdout
+```
