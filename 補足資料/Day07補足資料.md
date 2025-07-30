@@ -47,16 +47,15 @@ Day7 のハンズオンに関する情報を掲載します。
 ```bash
 BUCKET_NAME="your-bucket-name"
 # 1. S3バケット作成
-aws s3api create-bucket --bucket $BUCKET_NAME --region ap-northeast-1 --create-bucket-configuration LocationConstraint=ap-northeast-1
+aws s3api create-bucket --bucket $BUCKET_NAME --create-bucket-configuration LocationConstraint=ap-northeast-1
 # 2. パブリックアクセスブロック設定を無効化
 aws s3api put-public-access-block --bucket $BUCKET_NAME --public-access-block-configuration "BlockPublicAcls=false,IgnorePublicAcls=false,BlockPublicPolicy=false,RestrictPublicBuckets=false"
 # 3. 静的ウェブサイトホスティング有効化
 aws s3api put-bucket-website --bucket $BUCKET_NAME --website-configuration '{"IndexDocument":{"Suffix":"list.html"},"ErrorDocument":{"Key":"list.html"}}'
 # 4. バケットポリシー設定
 aws s3api put-bucket-policy --bucket $BUCKET_NAME --policy "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Sid\":\"PublicReadGetObject\",\"Effect\":\"Allow\",\"Principal\":\"*\",\"Action\":\"s3:GetObject\",\"Resource\":\"arn:aws:s3:::$BUCKET_NAME/*\"}]}"
-# 5. voice-newsフォルダ作成（空のオブジェクトでフォルダを作成）
+# 5. voice-news フォルダ作成
 aws s3api put-object --bucket $BUCKET_NAME --key voice-news/
-
 ```
 
 # Day7-6
