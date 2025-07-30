@@ -10,7 +10,7 @@ aws configure set region ap-northeast-1
 aws configure get region
 # => ap-northeast-1 と表示されることを確認する
 
-# Node.js/npmのバージョン確認
+# Node.js/npm がインストールされていることを確認する
 node --version
 npm --version
 
