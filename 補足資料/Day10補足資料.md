@@ -47,7 +47,7 @@ git push origin main
 ```bash
 cd ~
 mkdir work-simple-weather-news
-cp -r aws-serverless-10days/Day10/simple_weather_news/* work-simple-weather-news/
+cp -r ~/aws-serverless-10days/Day10/simple_weather_news/* ~/work-simple-weather-news/
 cd work-simple-weather-news
 vim js/config.js
 # -> Day10 で作った API Gateway エンドポイントを入力（最後の / は不要です）
