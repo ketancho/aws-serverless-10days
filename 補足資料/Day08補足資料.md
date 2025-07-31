@@ -28,16 +28,30 @@ cdk bootstrap
 ```
 
 # Day8-3
-## Lambda 関数用のディレクトリを作成 & Lambda 関数のソースコードをコピー
+## （必要に応じて）講座で用意しているリソースを最新化
 ```bash
-cd ~/simple-weather-news-cdk-project
-mkdir -p lambda/get_all_weather_public
+cd ~/aws-serverless-10days/
+git pull
+cd ~/simple-weather-news-cdk-project/
+```
+
+## 講座で用意した雛形をコピーする
+```bash
+# stack.ts の雛形をコピー
+cp ~/aws-serverless-10days/Day08/lib/Day08-03/simple-weather-news-cdk-project-stack.ts ~/simple-weather-news-cdk-project/lib/
+# Lambda 関数のコード格納する用ディレクトリを作成 & 雛形をコピー
+## Day8-3: get_all_weather_public_function
+mkdir -p ~/simple-weather-news-cdk-project/lambda/get_all_weather_public
 cp ~/aws-serverless-10days/Day08/lambda/get_all_weather_public/index.py ~/simple-weather-news-cdk-project/lambda/get_all_weather_public/
+## Day8-4: get_city_weather_public_function
+mkdir -p ~/simple-weather-news-cdk-project/lambda/get_city_weather_public
+cp ~/aws-serverless-10days/Day08/lambda/get_city_weather_public/index.py ~/simple-weather-news-cdk-project/lambda/get_city_weather_public/
+cp ~/aws-serverless-10days/Day08/lib/Day08-03/simple-weather-news-cdk-project-stack.ts ~/simple-weather-news-cdk-project/lib/
 ```
 
 ## stack.ts ファイルの雛形をコピーし、1つ目の Lambda 関数を作成するよう修正する
 ```bash
-cp ~/aws-serverless-10days/Day08/lib/Day08-03/simple-weather-news-cdk-project-stack.ts lib/
+cd ~/simple-weather-news-cdk-project
 vim lib/simple-weather-news-cdk-project-stack.ts
 ```
 ※ もし、修正が上手くいかない場合は、Day8-3 終了時点の stack.ts を、Day08/lib/Day08-03-end/simple-weather-news-cdk-project-stack.ts に用意してありますので、コピーしてお使いください。
@@ -54,12 +68,6 @@ aws lambda invoke --function-name get_all_weather_public_function --payload '{}'
 ```
 
 # Day8-4
-## 2つ目の Lambda 関数用のディレクトリを作成し、Lambda 関数のソースコードをコピー
-```bash
-cd ~/simple-weather-news-cdk-project
-mkdir -p lambda/get_city_weather_public
-cp ~/aws-serverless-10days/Day08/lambda/get_city_weather_public/index.py ~/simple-weather-news-cdk-project/lambda/get_city_weather_public/
-```
 
 ## stack.ts を修正する
 ```bash
