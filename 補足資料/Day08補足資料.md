@@ -35,7 +35,7 @@ git pull
 cd ~/simple-weather-news-cdk-project/
 ```
 
-## 講座で用意した雛形をコピーする
+## 講座で用意した雛形 .ts と .py をコピーする
 ```bash
 # stack.ts の雛形をコピー
 cp ~/aws-serverless-10days/Day08/lib/Day08-03/simple-weather-news-cdk-project-stack.ts ~/simple-weather-news-cdk-project/lib/
