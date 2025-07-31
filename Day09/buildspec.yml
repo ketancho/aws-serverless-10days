@@ -17,4 +17,4 @@ phases:
       - cdk deploy --require-approval never
   post_build:
     commands:
-      - echo "デプロイ完了
+      - echo "デプロイ完了"
