@@ -9,7 +9,7 @@ vim lib/simple-weather-news-cdk-project-stack.ts
 
 ```bash
 git add -A
-git commit -m "Add HTTP API"
+git commit -m "update."
 git push origin main
 # -> username + token の入力
 ```
@@ -22,7 +22,7 @@ vim lib/simple-weather-news-cdk-project-stack.ts
 
 ```bash
 git add -A
-git commit -m "Add GET /all"
+git commit -m "update."
 git push origin main
 # -> username + token の入力
 ```
@@ -36,7 +36,7 @@ vim lib/simple-weather-news-cdk-project-stack.ts
 
 ```bash
 git add -A
-git commit -m "Add GET /{cityId}"
+git commit -m "update."
 git push origin main
 # -> username + token の入力
 ```
