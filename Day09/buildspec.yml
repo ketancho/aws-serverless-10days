@@ -5,11 +5,11 @@ phases:
     runtime-versions:
       nodejs: 22
     commands:
-      - npm install -g aws-cdk@latest
+      - npm install -g aws-cdk
   pre_build:
     commands:
       - echo "CDKプロジェクトの準備中..."
-      - npm install
+      - npm ci
       - cdk bootstrap
   build:
     commands:
@@ -17,4 +17,4 @@ phases:
       - cdk deploy --require-approval never
   post_build:
     commands:
-      - echo "デプロイ完了"
+      - echo "デプロイ完了
